@@ -1,53 +1,81 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router';
-import heroImg from '../../asset/images/home-phones.png';
+import React, { useEffect, useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import logoImg from '../../asset/images/logo.png';
+import screenshot1 from '../../asset/images/screenshot1.jpg';
+import screenshot2 from '../../asset/images/screenshot2.jpg';
+import screenshot3 from '../../asset/images/screenshot3.jpg';
+import screenshot4 from '../../asset/images/screenshot4.jpg';
+import screenshot5 from '../../asset/images/screenshot5.jpg';
+import { Button } from '../components/Button';
+import { Container } from '../components/Container';
+import { TextField } from '../components/TextField';
+import { ErrorMessage, HeroLeft, HeroRight } from './login/Login.style';
+
+const screenshots = [
+  screenshot1,
+  screenshot2,
+  screenshot3,
+  screenshot4,
+  screenshot5,
+];
 
 const Login = () => {
-  const history = useHistory();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     document.title = 'Login • Instagram';
+
+    const intervalId = setInterval(() => {
+      setCurrentImageIndex((prev) => {
+        if (prev === screenshots.length - 1) {
+          return 0;
+        }
+        return prev + 1;
+      });
+    }, 4000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
-    <div className="flex justify-center h-screen sm:items-center sm:px-10">
-      <img
-        className="hidden mr-5 w-80 md:block"
-        src={heroImg}
-        alt="Phones with Instagram"
-      />
+    <Container>
+      <HeroLeft>
+        <TransitionGroup>
+          <CSSTransition
+            timeout={2000}
+            key={currentImageIndex}
+            classNames="fade"
+          >
+            <img
+              src={screenshots[currentImageIndex]}
+              alt="Instagram screenshot"
+            />
+          </CSSTransition>
+        </TransitionGroup>
+      </HeroLeft>
 
-      <div className="flex flex-col flex-none w-full max-w-sm px-10 py-6 sm:border sm:bg-white">
-        <h1 className="mx-auto mb-6">
+      <HeroRight>
+        <h1>
           <img src={logoImg} alt="Instagram" />
         </h1>
 
-        <form className="flex flex-col gap-2">
-          <input
-            aria-label="Email address"
-            aria-required="true"
-            autoCapitalize="off"
-            autoCorrect="off"
-            type="text"
-            placeholder="Email address"
-            className="p-2 border rounded-sm bg-gray-50"
-          />
-          <input
-            aria-label="Password"
-            aria-required="true"
-            autoCapitalize="off"
-            autoCorrect="off"
-            type="password"
-            placeholder="Password"
-            className="p-2 border rounded-sm bg-gray-50"
-          />
-          <button className="py-1 mt-2 font-bold text-white bg-indigo-300 rounded-sm">
+        <form>
+          <TextField label="Email Address" name="email" />
+          <TextField label="Password" name="password" type="password" />
+          <Button disabled type="submit">
             Log In
-          </button>
+          </Button>
         </form>
-      </div>
-    </div>
+        {true && (
+          <ErrorMessage>
+            <p>
+              Sorry, your password was incorrect. Please double-check your
+              password.
+            </p>
+          </ErrorMessage>
+        )}
+      </HeroRight>
+    </Container>
   );
 };
 
