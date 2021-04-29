@@ -8,7 +8,9 @@ import screenshot4 from '../../asset/images/screenshot4.jpg';
 import screenshot5 from '../../asset/images/screenshot5.jpg';
 import { Button } from '../components/Button';
 import { Container } from '../components/Container';
+import { Link } from '../components/Link';
 import { TextField } from '../components/TextField';
+import ROUTES from '../constants/routes';
 import { ErrorMessage, HeroLeft, HeroRight } from './login/Login.style';
 
 const screenshots = [
@@ -55,25 +57,34 @@ const Login = () => {
       </HeroLeft>
 
       <HeroRight>
-        <h1>
-          <img src={logoImg} alt="Instagram" />
-        </h1>
+        <div className="top">
+          <h1>
+            <img src={logoImg} alt="Instagram" />
+          </h1>
 
-        <form>
-          <TextField label="Email Address" name="email" />
-          <TextField label="Password" name="password" type="password" />
-          <Button disabled type="submit">
-            Log In
-          </Button>
-        </form>
-        {true && (
-          <ErrorMessage>
-            <p>
-              Sorry, your password was incorrect. Please double-check your
-              password.
-            </p>
-          </ErrorMessage>
-        )}
+          <form>
+            <TextField label="Email Address" name="email" />
+            <TextField label="Password" name="password" type="password" />
+            <Button disabled type="submit">
+              Log In
+            </Button>
+          </form>
+
+          {true && (
+            <ErrorMessage>
+              <p>
+                Sorry, your password was incorrect. Please double-check your
+                password.
+              </p>
+            </ErrorMessage>
+          )}
+        </div>
+
+        <div className="bottom">
+          <p>
+            Don&apos;t have an account? <Link to={ROUTES.SIGN_UP}>Sign up</Link>
+          </p>
+        </div>
       </HeroRight>
     </Container>
   );

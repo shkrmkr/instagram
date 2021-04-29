@@ -31,20 +31,31 @@ export const HeroLeft = styled.div`
 `;
 
 export const HeroRight = styled.div`
-  ${({ theme }) => css`
-    background-color: ${theme.colors.common.white};
-    border: 1px solid ${theme.colors.common.grey};
-    border-radius: ${theme.borderRadius.sm};
-  `};
-
-  width: 35rem;
-  padding: 4rem 4rem 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   h1 img {
     width: 175px;
+  }
+
+  .top,
+  .bottom {
+    ${({ theme }) => css`
+      background-color: ${theme.colors.common.white};
+      border: 1px solid ${theme.colors.common.grey};
+      border-radius: ${theme.borderRadius.sm};
+    `};
+    width: 35rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .top {
+    padding: 4rem 4rem 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .bottom {
+    padding: 2rem;
+    font-size: 1.4rem;
   }
 
   form {
