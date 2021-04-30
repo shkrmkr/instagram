@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.main`
+export const StyledContainer = styled.main`
   width: 100%;
   max-width: 80rem;
   min-height: 100vh;

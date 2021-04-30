@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 
-export interface StyledButtonProps {
+interface StyledButtonProps {
   color?: 'primary';
 }
 
-export const Button = styled.button<StyledButtonProps>`
+export const StyledButton = styled.button<StyledButtonProps>`
   ${({ theme, color = 'primary' }) => css`
     background-color: ${theme.colors[color].main};
     color: ${theme.colors[color].text};
@@ -14,7 +14,12 @@ export const Button = styled.button<StyledButtonProps>`
     }
   `};
 
+  cursor: pointer;
   padding: 0.5em 2em;
   border: none;
   font-weight: bold;
+
+  &:disabled {
+    cursor: default;
+  }
 `;

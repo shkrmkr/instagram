@@ -1,7 +1,5 @@
 const ROUTES = {
-  LOGIN: '/login',
-  DASHBOARD: '/',
-  SIGN_UP: '/signup',
+  HOME: '/',
   PROFILE: '/p/:username',
   NOT_FOUND: '/not-found',
 } as const;

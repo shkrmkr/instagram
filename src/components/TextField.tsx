@@ -1,30 +1,37 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-interface Props {
-  type?: 'text' | 'password';
+interface Props
+  extends React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   label: string;
-  name: string;
 }
 
-export const TextField = (props: Props) => {
-  const { type = 'text', name, label } = props;
+export const TextField = React.forwardRef(
+  (props: Props, ref: React.ForwardedRef<HTMLInputElement>) => {
+    const { name, label, type = 'text', ...rest } = props;
 
-  return (
-    <StyledTextField>
-      <input
-        aria-label={label}
-        aria-required="true"
-        autoCapitalize="off"
-        autoCorrect="off"
-        type={type}
-        required
-        id={name}
-      />
-      <label htmlFor={name}>{label}</label>
-    </StyledTextField>
-  );
-};
+    return (
+      <StyledTextField>
+        <input
+          ref={ref}
+          {...rest}
+          aria-label={label}
+          aria-required="true"
+          autoCapitalize="off"
+          autoCorrect="off"
+          type={type}
+          required
+          id={name}
+          name={name}
+        />
+        <label htmlFor={name}>{label}</label>
+      </StyledTextField>
+    );
+  },
+);
 
 const StyledTextField = styled.div`
   position: relative;
@@ -59,7 +66,7 @@ const StyledTextField = styled.div`
   }
 
   input:valid {
-    padding: 1.4rem 0 0.2rem 1rem;
+    padding: 1.4rem 1rem 0.2rem 1rem;
   }
 
   input:valid + label {
