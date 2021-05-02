@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import heroImg from '../../../asset/images/home-phones.png';
 import screenshot1 from '../../../asset/images/screenshot1.jpg';
@@ -34,14 +34,17 @@ export const ScreenshotShowcase = () => {
 
   return (
     <StyledScreenshotShowcase>
-      <TransitionGroup>
-        <CSSTransition timeout={2000} key={currentImageIndex} classNames="fade">
-          <img
-            src={screenshots[currentImageIndex]}
-            alt="Instagram screenshot"
-          />
+      {screenshots.map((screenshot, index) => (
+        <CSSTransition
+          timeout={2000}
+          mountOnEnter
+          in={currentImageIndex === index}
+          key={index}
+          classNames="fade"
+        >
+          <img src={screenshot} alt="Instagram screenshot" />
         </CSSTransition>
-      </TransitionGroup>
+      ))}
     </StyledScreenshotShowcase>
   );
 };
@@ -68,6 +71,9 @@ const StyledScreenshotShowcase = styled.div`
   .fade-exit-active {
     opacity: 0;
     transition: opacity 2s ease;
+  }
+  .fade-exit-done {
+    opacity: 0;
   }
 
   @media screen and (max-width: 875px) {

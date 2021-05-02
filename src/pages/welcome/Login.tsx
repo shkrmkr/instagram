@@ -4,45 +4,31 @@ import { useForm } from 'react-hook-form';
 import { object, SchemaOf, string } from 'yup';
 import { StyledButton } from '../../components/StyledButton';
 import { TextField } from '../../components/TextField';
+import { useAuthStore } from '../../store/auth.store';
+import { LoginInput } from '../../types';
 import { StyledErrorMessage, StyledForm } from './sharedStyles';
 
-interface FieldValues {
-  email: string;
-  password: string;
-}
-
-const formSchema: SchemaOf<FieldValues> = object().shape({
+const formSchema: SchemaOf<LoginInput> = object().shape({
   email: string().email().required(),
   password: string().min(6).required(),
 });
 
 export const Login = () => {
   const [error, setError] = useState<null | string>(null);
+  const { login } = useAuthStore();
   const {
     formState: { isValid, isSubmitting },
     register,
     setError: setFieldError,
     handleSubmit: makeHandleSubmit,
-  } = useForm<FieldValues>({
+  } = useForm<LoginInput>({
     mode: 'onChange',
     resolver: yupResolver(formSchema),
   });
 
   const handleSubmit = makeHandleSubmit(async (fieldValues) => {
     try {
-      const res = await fetch('/api/auth/login', {
-        body: JSON.stringify(fieldValues),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw data;
-      }
+      await login(fieldValues);
     } catch (error) {
       if (error.field) {
         setFieldError(error.field, {
