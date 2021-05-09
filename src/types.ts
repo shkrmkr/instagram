@@ -16,9 +16,15 @@ export interface User {
   username: string;
   fullName: string;
   createdAt: string;
+  profilePictureUrl?: string;
 }
 
 export interface AuthResponse {
   accessToken: string;
   user: User;
+}
+
+export interface AuthError {
+  field: string;
+  message: string;
 }

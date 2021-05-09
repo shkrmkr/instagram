@@ -54,6 +54,7 @@ const StyledScreenshotShowcase = styled.div`
   width: 374px;
   height: 617px;
   position: relative;
+  margin-right: 2.5rem;
 
   img {
     position: absolute;

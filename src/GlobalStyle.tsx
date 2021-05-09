@@ -16,8 +16,12 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.colors.common.offWhite};
     font-weight: 400;
-    line-height: 1.5;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+  }
+
+  #root {
+    min-height: 100vh;
+    height: 100vh;
   }
 `;
