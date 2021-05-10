@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { StyledContainer } from '../components/StyledContainer';
 import ROUTES from '../constants/routes';
-import { Login } from './shared/Login';
+import { Login } from './auth/Login';
 import {
   StyledAuthFormContainer,
   StyledAuthModeSwitcher,
-} from './shared/sharedStyles';
+} from './auth/sharedStyles';
 
 export const LoginPage = () => {
   return (

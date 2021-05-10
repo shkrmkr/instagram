@@ -5,8 +5,8 @@ import ROUTES from '../constants/routes';
 import {
   StyledAuthFormContainer,
   StyledAuthModeSwitcher,
-} from './shared/sharedStyles';
-import { Signup } from './shared/Signup';
+} from './auth/sharedStyles';
+import { Signup } from './auth/Signup';
 
 export const SignupPage = () => {
   return (

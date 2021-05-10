@@ -5,11 +5,11 @@ import ROUTES from '../constants/routes';
 import logoImg from '../../asset/images/logo.png';
 import { useAuthStore } from '../store/auth.store';
 import { StyledContainer } from './StyledContainer';
-import { Avatar } from './Avatar';
-import avatarPlaceholder from '../../asset/images/avatar-placeholder.jpg';
+import { StyledAvatar } from './StyledAvatar';
+import { StyledButton } from './StyledButton';
 
 export const Header = () => {
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
 
   return (
     <StyledHeader>
@@ -23,28 +23,60 @@ export const Header = () => {
         <div className="header-right">
           {user ? (
             <>
-              <Link to={ROUTES.HOME}>
+              <Link to={ROUTES.HOME} aria-label="Home">
                 <svg
-                  aria-label="Home"
-                  fill="#262626"
-                  height="22"
-                  viewBox="0 0 48 48"
-                  width="22"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <path d="M45.3 48H30c-.8 0-1.5-.7-1.5-1.5V34.2c0-2.6-2-4.6-4.6-4.6s-4.6 2-4.6 4.6v12.3c0 .8-.7 1.5-1.5 1.5H2.5c-.8 0-1.5-.7-1.5-1.5V23c0-.4.2-.8.4-1.1L22.9.4c.6-.6 1.5-.6 2.1 0l21.5 21.5c.4.4.6 1.1.3 1.6 0 .1-.1.1-.1.2v22.8c.1.8-.6 1.5-1.4 1.5zm-13.8-3h12.3V23.4L24 3.6l-20 20V45h12.3V34.2c0-4.3 3.3-7.6 7.6-7.6s7.6 3.3 7.6 7.6V45z"></path>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
                 </svg>
               </Link>
 
-              <Avatar
-                profilePictureUrl={
-                  user.profilePictureUrl
-                    ? user.profilePictureUrl
-                    : avatarPlaceholder
-                }
+              <button aria-label="Logout" onClick={logout}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+              </button>
+
+              <StyledAvatar
+                to={`/p/${user.username}`}
+                $profilePictureUrl={user.profilePictureUrl}
+                size={24}
               />
             </>
           ) : (
-            <p>what?</p>
+            <>
+              <StyledButton as={Link} to={ROUTES.LOGIN} aria-label="Log in">
+                Log In
+              </StyledButton>
+              <StyledButton
+                as={Link}
+                inversed
+                to={ROUTES.SIGNUP}
+                aria-label="Sign up"
+              >
+                Sign Up
+              </StyledButton>
+            </>
           )}
         </div>
       </StyledContainer>
@@ -79,8 +111,17 @@ const StyledHeader = styled.header`
     align-items: center;
     height: 100%;
 
-    a {
-      height: 22px;
+    svg {
+      color: ${({ theme }) => theme.colors.common.black};
+      height: 24px;
+      width: 24px;
+    }
+
+    button {
+      border: none;
+      height: 24px;
+      cursor: pointer;
+      background-color: transparent;
     }
   }
 `;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { StyledContainer } from '../components/StyledContainer';
-import { AuthModeSwitcher } from './shared/AuthModeSwitcher';
-import { Login } from './shared/Login';
-import { ScreenshotShowcase } from './shared/ScreenshotShowcase';
-import { StyledAuthFormContainer } from './shared/sharedStyles';
-import { Signup } from './shared/Signup';
+import { AuthModeSwitcher } from './auth/AuthModeSwitcher';
+import { Login } from './auth/Login';
+import { ScreenshotShowcase } from './auth/ScreenshotShowcase';
+import { StyledAuthFormContainer } from './auth/sharedStyles';
+import { Signup } from './auth/Signup';
 
 export const WelcomePage = () => {
   // true => login mode
