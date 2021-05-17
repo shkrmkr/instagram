@@ -5,7 +5,7 @@ import ROUTES from '../constants/routes';
 import logoImg from '../../asset/images/logo.png';
 import { useAuthStore } from '../store/auth.store';
 import { StyledContainer } from './StyledContainer';
-import { StyledAvatar } from './StyledAvatar';
+import { Avatar } from './Avatar';
 import { StyledButton } from './StyledButton';
 
 export const Header = () => {
@@ -57,11 +57,7 @@ export const Header = () => {
                 </svg>
               </button>
 
-              <StyledAvatar
-                to={`/p/${user.username}`}
-                $profilePictureUrl={user.profilePictureUrl}
-                size={24}
-              />
+              <Avatar user={user} size={24} />
             </>
           ) : (
             <>

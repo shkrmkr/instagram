@@ -28,3 +28,5 @@ export interface AuthError {
   field: string;
   message: string;
 }
+
+export type Suggestions = User[];

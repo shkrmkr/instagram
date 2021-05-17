@@ -1,76 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
-import { StyledAvatar } from '../../components/StyledAvatar';
-import { Suggestion } from '../../components/Suggestion';
+import { api } from '../../api';
+import { Avatar } from '../../components/Avatar';
+import { StyledButton } from '../../components/StyledButton';
 import { useAuthStore } from '../../store/auth.store';
-import { User } from '../../types';
-
-const sugg: User[] = [
-  {
-    id: 'sdfsdfdsfsdf',
-    username: 'shkrmkr',
-    createdAt: new Date().toDateString(),
-    email: 'shkrmkr@gmail.com',
-    fullName: 'user name',
-  },
-  {
-    id: 'fdsfsdfsdfdsghgtfjf',
-    username:
-      'shkrmkr213dsffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
-    createdAt: new Date().toDateString(),
-    email: 'shkrmkr213@gmail.com',
-    fullName: 'user name',
-  },
-];
+import { Suggestions, User } from '../../types';
 
 export const Sidebar = () => {
   const { user } = useAuthStore();
+  const [suggestions, setSuggestions] = useState<Suggestions | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await api.getSuggestions();
+        setSuggestions(data);
+      } catch (error) {
+        // TODO: toast에 에러 표시
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const handleToggleFollow = (followeeId: User['id']) => {
+    api.toggleFollow(followeeId);
+  };
 
   return (
     <StyledSidebar>
-      {user && (
-        <div className="user">
-          <StyledAvatar
-            to={`/p/${user.username}`}
-            $profilePictureUrl={user.profilePictureUrl}
-            size={56}
-          />
-          <p>{user.username}</p>
-        </div>
+      {user && <Avatar user={user} size={56} showUsername />}
+
+      <h3>Suggestions For You</h3>
+
+      {!suggestions ? (
+        <Skeleton count={5} height={40} />
+      ) : (
+        <>
+          {suggestions.map((suggestion) => (
+            <div className="suggestion" key={suggestion.username}>
+              <Avatar user={suggestion} size={32} showUsername />
+              <StyledButton
+                inversed
+                onClick={() => handleToggleFollow(suggestion.id)}
+              >
+                Follow
+              </StyledButton>
+            </div>
+          ))}
+        </>
       )}
-      <div className="suggestions">
-        <h3>Suggestions For You</h3>
-        {sugg.map((user) => (
-          <Suggestion user={user} key={user.id} />
-        ))}
-      </div>
     </StyledSidebar>
   );
 };
 
 const StyledSidebar = styled.aside`
   grid-column: 5 / 7;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 
-  .user {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin-bottom: 2rem;
-
-    p {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      flex: 1;
-    }
+  h3 {
+    margin-top: 1rem;
+    color: ${({ theme }) => theme.colors.common.greyDarkest};
+    font-size: 1.5rem;
   }
 
-  .suggestions {
-    h3 {
-      color: ${({ theme }) => theme.colors.common.greyDarkest};
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
+  .suggestion {
+    display: flex;
+    gap: 1rem;
+
+    ${StyledButton} {
+      padding: 0;
+      font-size: inherit;
     }
   }
 

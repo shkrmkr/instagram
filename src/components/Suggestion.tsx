@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { User } from '../types';
-import { StyledAvatar } from './StyledAvatar';
+import { Avatar } from './Avatar';
 import { StyledButton } from './StyledButton';
 
 interface Props {
@@ -10,30 +10,20 @@ interface Props {
 
 export const Suggestion = ({ user }: Props) => {
   return (
-    <StyledSuggestions>
-      <StyledAvatar
-        to={`/p/${user.username}`}
-        size={32}
-        $profilePictureUrl={user.profilePictureUrl}
-      />
-      <p>{user.username}</p>
+    <StyledSuggestion>
+      <Avatar user={user} size={32} showUsername />
       <StyledButton inversed>follow</StyledButton>
-    </StyledSuggestions>
+    </StyledSuggestion>
   );
 };
 
-const StyledSuggestions = styled.div`
+const StyledSuggestion = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 
   & + & {
     margin-top: 1rem;
-  }
-
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
   }
 `;

@@ -1,17 +1,23 @@
 import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { AuthResponse, LoginInput, SignupInput } from './types';
+import {
+  AuthResponse,
+  LoginInput,
+  SignupInput,
+  Suggestions,
+  User,
+} from './types';
 
 axios.defaults.baseURL = '/api';
 axios.defaults.withCredentials = true;
 
 // 서버로부터 access token을 받았을 때,
 //  1. authorization header로 설정하고
-//  2. token 만료 1분 전에 refresh endpoint를 hit하는 로직
+//  2. token 만료 1분 전에 재발급
 const onAccessTokenReceived = (res: AxiosResponse<AuthResponse>) => {
   const { accessToken, user } = res.data;
 
-  axios.defaults.headers.common['Authorization'] = accessToken;
+  axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
   const { exp } = jwtDecode<{ exp: number }>(accessToken);
 
@@ -36,9 +42,16 @@ const signup = (signupInput: SignupInput) =>
 
 const logout = () => axios.get('/auth/logout');
 
+const getSuggestions = () => axios.get<Suggestions>('/users/suggestions');
+
+const toggleFollow = (followeeId: User['id']) =>
+  axios.post(`/users/follow/${followeeId}`);
+
 export const api = {
   refreshToken,
   login,
   signup,
   logout,
+  getSuggestions,
+  toggleFollow,
 };
