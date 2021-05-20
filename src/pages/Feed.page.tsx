@@ -22,7 +22,7 @@ const StyledGrid = styled.div`
   padding: 0 2rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 2rem;
+  gap: 3rem;
 
   @media screen and (max-width: 1000px) {
     max-width: 600px;

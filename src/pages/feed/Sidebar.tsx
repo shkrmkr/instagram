@@ -3,9 +3,9 @@ import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
 import { api } from '../../api';
 import { Avatar } from '../../components/Avatar';
-import { StyledButton } from '../../components/StyledButton';
 import { useAuthStore } from '../../store/auth.store';
 import { Suggestions, User } from '../../types';
+import { Suggestion } from './sidebar/Suggestion';
 
 export const Sidebar = () => {
   const { user } = useAuthStore();
@@ -38,15 +38,11 @@ export const Sidebar = () => {
       ) : (
         <>
           {suggestions.map((suggestion) => (
-            <div className="suggestion" key={suggestion.username}>
-              <Avatar user={suggestion} size={32} showUsername />
-              <StyledButton
-                inversed
-                onClick={() => handleToggleFollow(suggestion.id)}
-              >
-                Follow
-              </StyledButton>
-            </div>
+            <Suggestion
+              key={suggestion.id}
+              suggestion={suggestion}
+              handleToggleFollow={() => handleToggleFollow(suggestion.id)}
+            />
           ))}
         </>
       )}
@@ -57,6 +53,7 @@ export const Sidebar = () => {
 const StyledSidebar = styled.aside`
   grid-column: 5 / 7;
   font-size: 1.3rem;
+  align-self: flex-start;
   font-weight: 600;
   display: flex;
   flex-direction: column;
@@ -66,16 +63,6 @@ const StyledSidebar = styled.aside`
     margin-top: 1rem;
     color: ${({ theme }) => theme.colors.common.greyDarkest};
     font-size: 1.5rem;
-  }
-
-  .suggestion {
-    display: flex;
-    gap: 1rem;
-
-    ${StyledButton} {
-      padding: 0;
-      font-size: inherit;
-    }
   }
 
   @media screen and (max-width: 1000px) {

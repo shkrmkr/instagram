@@ -29,4 +29,13 @@ export interface AuthError {
   message: string;
 }
 
+export interface Post {
+  id: number;
+  caption: string;
+  createdAt: Date;
+  imageSrc: string;
+  isLikedByUser: boolean;
+  user: User;
+}
+
 export type Suggestions = User[];

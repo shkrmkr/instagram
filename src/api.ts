@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode';
 import {
   AuthResponse,
   LoginInput,
+  Post,
   SignupInput,
   Suggestions,
   User,
@@ -47,6 +48,11 @@ const getSuggestions = () => axios.get<Suggestions>('/users/suggestions');
 const toggleFollow = (followeeId: User['id']) =>
   axios.post(`/users/follow/${followeeId}`);
 
+const getPosts = () => axios.get<Post[]>('/posts');
+
+const toggleLike = (postId: Post['id']) =>
+  axios.get<Post>(`/posts/like/${postId}`);
+
 export const api = {
   refreshToken,
   login,
@@ -54,4 +60,6 @@ export const api = {
   logout,
   getSuggestions,
   toggleFollow,
+  getPosts,
+  toggleLike,
 };

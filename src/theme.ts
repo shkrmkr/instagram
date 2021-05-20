@@ -20,5 +20,9 @@ export const theme: DefaultTheme = {
       text: '#fff',
       disabled: '#b2dffc',
     },
+    dimmed: {
+      main: '#888',
+      text: '#fff',
+    },
   },
 };

@@ -24,6 +24,7 @@ declare module 'styled-components' {
       };
       primary: Colors;
       // secondary: Colors;
+      dimmed: Colors;
     };
   }
 }

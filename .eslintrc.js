@@ -24,5 +24,6 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'react/display-name': 0,
     '@typescript-eslint/no-explicit-any': 0,
+    'jsx-a11y/img-redundant-alt': 0,
   },
 };
