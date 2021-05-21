@@ -35,6 +35,7 @@ export interface Post {
   createdAt: Date;
   imageSrc: string;
   isLikedByUser: boolean;
+  totalLikes: number;
   user: User;
 }
 

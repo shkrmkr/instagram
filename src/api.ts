@@ -51,7 +51,7 @@ const toggleFollow = (followeeId: User['id']) =>
 const getPosts = () => axios.get<Post[]>('/posts');
 
 const toggleLike = (postId: Post['id']) =>
-  axios.get<Post>(`/posts/like/${postId}`);
+  axios.post<Post>(`/posts/likes/${postId}`);
 
 export const api = {
   refreshToken,

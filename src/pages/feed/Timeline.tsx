@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
-import { api } from '../../api';
-import { Post as PostType } from '../../types';
+import { useFeedStore } from '../../store/feed.store';
 import { Post } from './timeline/Post';
 
 export const Timeline = () => {
-  const [posts, setPosts] = useState<PostType[] | null>(null);
+  const { posts, getPosts } = useFeedStore();
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await api.getPosts();
-        setPosts(data);
+        await getPosts();
       } catch (error) {
         console.log(error);
       }
     })();
-  }, []);
+  }, [getPosts]);
 
   return (
     <StyledTimeline>
