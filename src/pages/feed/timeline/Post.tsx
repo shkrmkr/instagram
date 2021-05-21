@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { format } from 'timeago.js';
 import { Avatar } from '../../../components/Avatar';
+import { StyledButton } from '../../../components/StyledButton';
 import { useFeedStore } from '../../../store/feed.store';
 import { Post as PostType } from '../../../types';
 
@@ -10,6 +12,7 @@ interface Props {
 }
 
 export const Post = ({ post }: Props) => {
+  const [commentInput, setCommentInput] = useState('');
   const { toggleLike } = useFeedStore();
 
   const handleLike = () => toggleLike(post.id);
@@ -58,15 +61,47 @@ export const Post = ({ post }: Props) => {
       </div>
 
       <div className="footer">
-        <p className="bold">
-          {post.totalLikes === 1 ? '1 Like' : `${post.totalLikes} likes`}
-        </p>
-        <p>
-          <Link className="bold link" to={`/p/${post.user.username}`}>
-            {post.user.username}
-          </Link>
-          {post.caption}
-        </p>
+        <div className="post-data">
+          <p className="bold">
+            {post.totalLikes === 1 ? '1 like' : `${post.totalLikes} likes`}
+          </p>
+
+          <p>
+            <Link className="bold link" to={`/p/${post.user.username}`}>
+              {post.user.username}
+            </Link>
+            {post.caption}
+          </p>
+
+          {post.comments.length > 2 && (
+            <p className="bold grey">
+              View all {post.comments.length} comments
+            </p>
+          )}
+
+          {post.comments.slice(0, 2).map((comment) => (
+            <p key={comment.id}>
+              <Link className="bold link" to={`/p/${comment.user.username}`}>
+                {comment.user.username}
+              </Link>
+              {comment.body}
+            </p>
+          ))}
+
+          {<p className="created-at">{format(post.createdAt, 'en_US')}</p>}
+        </div>
+
+        <form>
+          <input
+            type="text"
+            value={commentInput}
+            onChange={(e) => setCommentInput(e.target.value)}
+            placeholder="Add a comment..."
+          />
+          <StyledButton inversed disabled={commentInput.length === 0}>
+            Post
+          </StyledButton>
+        </form>
       </div>
     </StyledPost>
   );
@@ -87,20 +122,37 @@ const StyledPost = styled.div`
   .header {
     font-size: 1.4rem;
     font-weight: bold;
-    padding: 1rem;
+    padding: 1.5rem;
     border-bottom: 1px solid ${({ theme }) => theme.colors.common.grey};
   }
 
   .footer {
-    padding: 1rem;
+    /* padding: 1rem; */
     display: flex;
     flex-direction: column;
     gap: 5px;
     font-size: 1.4rem;
   }
 
+  .post-data {
+    padding: 1rem 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .created-at {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.colors.common.greyDarkest};
+  }
+
   .bold {
     font-weight: bold;
+  }
+
+  .grey {
+    color: ${({ theme }) => theme.colors.common.greyDarkest};
   }
 
   .link {
@@ -129,6 +181,30 @@ const StyledPost = styled.div`
         fill: ${theme.colors.common.danger};
         color: ${theme.colors.common.danger};
       `}
+    }
+  }
+
+  form {
+    border-top: 1px solid ${({ theme }) => theme.colors.common.grey};
+    display: flex;
+
+    input {
+      padding: 2rem;
+      border: none;
+      flex: 1;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    ${StyledButton} {
+      padding: 2rem;
+
+      &:disabled {
+        background-color: transparent;
+        color: ${({ theme }) => theme.colors.primary.disabled};
+      }
     }
   }
 `;

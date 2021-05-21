@@ -5,6 +5,7 @@ import { Post } from '../types';
 
 interface FeedState extends State {
   posts: Post[];
+  isLoading: boolean;
   toggleLike: (postId: Post['id']) => Promise<void>;
   getPosts: () => Promise<void>;
 }
@@ -12,6 +13,7 @@ interface FeedState extends State {
 export const useFeedStore = createStore<FeedState>(
   devtools((set) => ({
     posts: [],
+    isLoading: false,
     toggleLike: async (postId) => {
       const { data } = await api.toggleLike(postId);
 
@@ -20,8 +22,9 @@ export const useFeedStore = createStore<FeedState>(
       }));
     },
     getPosts: async () => {
+      set({ isLoading: true });
       const { data } = await api.getPosts();
-      set({ posts: data });
+      set({ posts: data, isLoading: false });
     },
   })),
 );

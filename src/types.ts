@@ -11,7 +11,6 @@ export interface SignupInput {
 }
 
 export interface User {
-  id: string;
   email: string;
   username: string;
   fullName: string;
@@ -32,10 +31,17 @@ export interface AuthError {
 export interface Post {
   id: number;
   caption: string;
-  createdAt: Date;
+  createdAt: string;
   imageSrc: string;
   isLikedByUser: boolean;
   totalLikes: number;
+  user: User;
+  comments: Comment[];
+}
+
+export interface Comment {
+  id: string;
+  body: string;
   user: User;
 }
 

@@ -5,7 +5,7 @@ import { useFeedStore } from '../../store/feed.store';
 import { Post } from './timeline/Post';
 
 export const Timeline = () => {
-  const { posts, getPosts } = useFeedStore();
+  const { posts, isLoading, getPosts } = useFeedStore();
 
   useEffect(() => {
     (async () => {
@@ -19,7 +19,7 @@ export const Timeline = () => {
 
   return (
     <StyledTimeline>
-      {!posts ? (
+      {isLoading ? (
         <Skeleton height={400} />
       ) : posts.length === 0 ? (
         <p>follow people to see posts</p>
