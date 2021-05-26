@@ -12,7 +12,7 @@ interface Props {
 
 export const Avatar = ({ user, size = 30, showUsername }: Props) => {
   return (
-    <StyledAvatar to={`/p/${user.username}`} size={size}>
+    <StyledAvatar to={`/${user.username}`} size={size}>
       <img
         src={user.profilePictureUrl || avatarPlaceholder}
         alt={`${user.username}'s profile`}

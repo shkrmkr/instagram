@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import {
   AuthResponse,
+  Comment,
   LoginInput,
   Post,
   SignupInput,
@@ -45,13 +46,16 @@ const logout = () => axios.get('/auth/logout');
 
 const getSuggestions = () => axios.get<Suggestions>('/users/suggestions');
 
-const toggleFollow = (followeeId: User['id']) =>
-  axios.post(`/users/follow/${followeeId}`);
+const toggleFollow = (username: User['username']) =>
+  axios.post(`/users/follow/${username}`);
 
 const getPosts = () => axios.get<Post[]>('/posts');
 
 const toggleLike = (postId: Post['id']) =>
   axios.post<Post>(`/posts/likes/${postId}`);
+
+const addComment = (postId: Post['id'], body: string) =>
+  axios.post<Comment>('/comments', { postId, body });
 
 export const api = {
   refreshToken,
@@ -62,4 +66,5 @@ export const api = {
   toggleFollow,
   getPosts,
   toggleLike,
+  addComment,
 };

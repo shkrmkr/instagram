@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import { AuthRoute } from './components/AuthRoute';
 import ROUTES from './constants/routes';
 import { FeedPage } from './pages/Feed.page';
 import { LoginPage } from './pages/Login.page';
 import { NotFoundPage } from './pages/NotFound.page';
+import { PostPage } from './pages/Post.page';
+import { ProfilePage } from './pages/Profile.page';
 import { SignupPage } from './pages/Signup.page';
 import { WelcomePage } from './pages/Welcome.page';
 import { useAuthStore } from './store/auth.store';
@@ -18,17 +20,29 @@ export const App = () => {
     }),
   );
 
+  const previousLocation = useRef(useLocation<{ modal?: boolean }>());
+  const location = useLocation<{ modal?: boolean }>();
+
+  useEffect(() => {
+    if (!location.state?.modal) {
+      previousLocation.current = location;
+    }
+  }, [location]);
+
   useEffect(() => {
     refreshToken();
   }, [refreshToken]);
+
+  const isModal =
+    location.state?.modal && previousLocation.current !== location;
 
   if (isRefreshing) {
     return null;
   }
 
   return (
-    <BrowserRouter>
-      <Switch>
+    <>
+      <Switch location={isModal ? previousLocation.current : location}>
         {user === null ? (
           <Route path={ROUTES.HOME} exact component={WelcomePage} />
         ) : (
@@ -36,8 +50,12 @@ export const App = () => {
         )}
         <AuthRoute path={ROUTES.LOGIN} component={LoginPage} />
         <AuthRoute path={ROUTES.SIGNUP} component={SignupPage} />
+
+        <Route path={ROUTES.POST} component={PostPage} />
+        <Route path={ROUTES.PROFILE} component={ProfilePage} />
         <Route component={NotFoundPage} />
       </Switch>
-    </BrowserRouter>
+      {isModal && <Route path={ROUTES.POST} component={PostPage} />}
+    </>
   );
 };

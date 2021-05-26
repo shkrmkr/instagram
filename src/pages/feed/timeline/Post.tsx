@@ -13,9 +13,15 @@ interface Props {
 
 export const Post = ({ post }: Props) => {
   const [commentInput, setCommentInput] = useState('');
-  const { toggleLike } = useFeedStore();
+  const { toggleLike, addComment } = useFeedStore();
 
   const handleLike = () => toggleLike(post.id);
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    await addComment(post.id, commentInput);
+    setCommentInput('');
+  };
 
   return (
     <StyledPost>
@@ -67,21 +73,24 @@ export const Post = ({ post }: Props) => {
           </p>
 
           <p>
-            <Link className="bold link" to={`/p/${post.user.username}`}>
+            <Link className="bold link" to={`/${post.user.username}`}>
               {post.user.username}
             </Link>
             {post.caption}
           </p>
 
           {post.comments.length > 2 && (
-            <p className="bold grey">
+            <Link
+              className="bold link link--grey"
+              to={{ pathname: `/p/${post.id}`, state: { modal: true } }}
+            >
               View all {post.comments.length} comments
-            </p>
+            </Link>
           )}
 
           {post.comments.slice(0, 2).map((comment) => (
             <p key={comment.id}>
-              <Link className="bold link" to={`/p/${comment.user.username}`}>
+              <Link className="bold link" to={`/${comment.user.username}`}>
                 {comment.user.username}
               </Link>
               {comment.body}
@@ -91,7 +100,7 @@ export const Post = ({ post }: Props) => {
           {<p className="created-at">{format(post.createdAt, 'en_US')}</p>}
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             value={commentInput}
@@ -117,6 +126,7 @@ const StyledPost = styled.div`
 
   margin-bottom: 5rem;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
 
   .header {
@@ -162,6 +172,10 @@ const StyledPost = styled.div`
 
     &:hover {
       text-decoration: underline;
+    }
+
+    &--grey {
+      color: ${({ theme }) => theme.colors.common.greyDarkest};
     }
   }
 

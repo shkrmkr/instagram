@@ -42,6 +42,7 @@ export interface Post {
 export interface Comment {
   id: string;
   body: string;
+  createdAt: string;
   user: User;
 }
 

@@ -23,8 +23,8 @@ export const Sidebar = () => {
     })();
   }, []);
 
-  const handleToggleFollow = (followeeId: User['id']) => {
-    api.toggleFollow(followeeId);
+  const handleToggleFollow = (username: User['username']) => {
+    api.toggleFollow(username);
   };
 
   return (
@@ -39,9 +39,9 @@ export const Sidebar = () => {
         <>
           {suggestions.map((suggestion) => (
             <Suggestion
-              key={suggestion.id}
+              key={suggestion.username}
               suggestion={suggestion}
-              handleToggleFollow={() => handleToggleFollow(suggestion.id)}
+              handleToggleFollow={() => handleToggleFollow(suggestion.username)}
             />
           ))}
         </>
