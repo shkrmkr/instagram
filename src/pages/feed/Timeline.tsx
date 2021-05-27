@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styled from 'styled-components';
-import { useFeedStore } from '../../store/feed.store';
+import { usePostStore } from '../../store/feed.store';
 import { Post } from './timeline/Post';
 
 export const Timeline = () => {
-  const { posts, isLoading, getPosts } = useFeedStore();
+  const { feedPosts, isLoading, getPosts } = usePostStore();
 
   useEffect(() => {
     (async () => {
@@ -21,10 +21,10 @@ export const Timeline = () => {
     <StyledTimeline>
       {isLoading ? (
         <Skeleton height={400} />
-      ) : posts.length === 0 ? (
+      ) : feedPosts.length === 0 ? (
         <p>follow people to see posts</p>
       ) : (
-        posts.map((post) => <Post post={post} key={post.id} />)
+        feedPosts.map((post) => <Post post={post} key={post.id} />)
       )}
     </StyledTimeline>
   );

@@ -49,13 +49,15 @@ const getSuggestions = () => axios.get<Suggestions>('/users/suggestions');
 const toggleFollow = (username: User['username']) =>
   axios.post(`/users/follow/${username}`);
 
-const getPosts = () => axios.get<Post[]>('/posts');
+const feedPosts = () => axios.get<Post[]>('/posts');
 
 const toggleLike = (postId: Post['id']) =>
   axios.post<Post>(`/posts/likes/${postId}`);
 
 const addComment = (postId: Post['id'], body: string) =>
   axios.post<Comment>('/comments', { postId, body });
+
+const getPostById = (postId: Post['id']) => axios.get<Post>(`/posts/${postId}`);
 
 export const api = {
   refreshToken,
@@ -64,7 +66,8 @@ export const api = {
   logout,
   getSuggestions,
   toggleFollow,
-  getPosts,
+  feedPosts,
   toggleLike,
   addComment,
+  getPostById,
 };

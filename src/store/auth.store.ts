@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import createStore, { State } from 'zustand';
+import create, { State } from 'zustand';
 import { api } from '../api';
 import { LoginInput, SignupInput, User } from '../types';
 
@@ -15,7 +15,7 @@ interface AuthState extends State {
   resetAuthState: () => void;
 }
 
-export const useAuthStore = createStore<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: false,
   isRefreshing: true,

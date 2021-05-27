@@ -30,7 +30,6 @@ const StyledAvatar = styled(Link)<Pick<Props, 'size'>>`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  flex: 1;
   min-width: 0px;
 
   img {
