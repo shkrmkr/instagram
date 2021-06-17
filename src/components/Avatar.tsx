@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import avatarPlaceholder from '../../asset/images/avatar-placeholder.jpg';
-import { User } from '../types';
+import { User, UserProfile } from '../types';
 
 interface Props {
-  user: User;
+  user: User | UserProfile;
   size?: number; // diameter in px
   showUsername?: boolean;
 }

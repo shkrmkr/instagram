@@ -15,7 +15,17 @@ export interface User {
   username: string;
   fullName: string;
   createdAt: string;
-  profilePictureUrl?: string;
+  profilePictureUrl: string | null;
+  website: string | null;
+  bio: string | null;
+}
+
+export interface UserProfile extends User {
+  posts: BasePost[];
+  postCount: number;
+  followerCount: number;
+  followingCount: number;
+  isFollowedByUser: boolean;
 }
 
 export interface AuthResponse {
@@ -28,13 +38,16 @@ export interface AuthError {
   message: string;
 }
 
-export interface Post {
+interface BasePost {
   id: number;
   caption: string;
   createdAt: string;
   imageSrc: string;
   isLikedByUser: boolean;
   totalLikes: number;
+}
+
+export interface Post extends BasePost {
   user: User;
   comments: Comment[];
 }

@@ -8,6 +8,7 @@ import {
   SignupInput,
   Suggestions,
   User,
+  UserProfile,
 } from './types';
 
 axios.defaults.baseURL = '/api';
@@ -59,6 +60,9 @@ const addComment = (postId: Post['id'], body: string) =>
 
 const getPostById = (postId: Post['id']) => axios.get<Post>(`/posts/${postId}`);
 
+const getUserProfile = (username: User['username']) =>
+  axios.get<UserProfile>(`/users/${username}`);
+
 export const api = {
   refreshToken,
   login,
@@ -70,4 +74,5 @@ export const api = {
   toggleLike,
   addComment,
   getPostById,
+  getUserProfile,
 };

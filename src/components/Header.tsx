@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ROUTES from '../constants/routes';
 import logoImg from '../../asset/images/logo.png';
+import ROUTES from '../constants/routes';
 import { useAuthStore } from '../store/auth.store';
-import { StyledContainer } from './StyledContainer';
 import { Avatar } from './Avatar';
 import { StyledButton } from './StyledButton';
+import { StyledContainer } from './StyledContainer';
 
 export const Header = () => {
   const { user, logout } = useAuthStore();
